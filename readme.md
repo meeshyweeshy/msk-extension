@@ -12,6 +12,10 @@
 <h3 align="center">Photo & video backgrounds, custom candle colors and animations for TradingView.</h3>
 <p align="center">No account. No paywall. Everything stays in your browser.</p>
 
+<p align="center">
+  <b>Using the TradingView Desktop app?</b> Grab the app version → <a href="https://github.com/meeshyweeshy/msk-desktop"><b>msk-desktop</b></a>
+</p>
+
 <br />
 
 <p align="center">
@@ -85,11 +89,13 @@ Download the new ZIP, replace your old folder's files, then hit the ↻ reload b
 
 **Candle colors didn't change?** Make sure **Recolor the chart** is on in the Workshop. TradingView's internals aren't public, so colors are best-effort. Backgrounds always work.
 
+**Is there a desktop app?** Yes: **[msk-desktop](https://github.com/meeshyweeshy/msk-desktop)** works with TradingView Desktop on Windows, with a tray icon, startup launch and global hotkeys.
+
 **Can I move configs to the desktop app?** Yes. Configs export as `.msk` files (with the media inside) and import into either one.
 
 ## ✦ About
 
-MSK started as a "can I put my own wallpaper behind TradingView?" idea and turned into a full chart-skins studio: a desktop app for TradingView Desktop plus this browser extension. Built by **meeshy** for traders who stare at charts all day and want them to actually look good.
+MSK started as a "can I put my own wallpaper behind TradingView?" idea and turned into a full chart-skins studio: a [desktop app](https://github.com/meeshyweeshy/msk-desktop) for TradingView Desktop plus this browser extension. Built by **meeshy** for traders who stare at charts all day and want them to actually look good.
 
 Not affiliated with TradingView. Use it however you like.
 
