@@ -63,6 +63,14 @@
       ? `radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,${bg.vignette}) 100%)` : "none";
   }
 
+  let lastBase;
+  function setBase(bg) {
+    const v = bg && bg.mode !== "overlay" && window.MSK_FX ? window.MSK_FX.baseCSS(bg.base) : null;
+    if (v === lastBase) return;
+    lastBase = v;
+    const st = document.documentElement.style;
+    if (v) st.setProperty("--msk-base", v); else st.removeProperty("--msk-base");
+  }
   function setCSS(cfg) {
     if (!styleEl || !styleEl.isConnected) {
       styleEl = document.createElement("style"); styleEl.id = "__msk_css";
@@ -70,7 +78,8 @@
     }
     let css = "";
     if (cfg.bg.mode === "behind") {
-      css += `html{background:#000!important}
+      if (window.MSK_FX && window.MSK_FX.baseCSS(cfg.bg.base) !== null) css += `html{background:var(--msk-base,#000)!important;background-attachment:fixed!important}`;
+      css += `
       body,#overlap-manager-root,.js-rootresizer__contents,.layout__area--center,.chart-container,
       .chart-container-border,.chart-markup-table,.chart-widget,.chart-gui-wrapper,.chart-page,
       .chart-markup-table td{background:transparent!important;background-color:transparent!important}`;
@@ -193,12 +202,14 @@
     if (!p || !p.on || !p.cfg) {
       if (root) { root.remove(); root = null; curKey = null; mediaEl = null; }
       if (styleEl) styleEl.textContent = "";
+      setBase(null);
       restoreColors(); M.status.bg = false; M.status.colors = "off";
       return;
     }
     if (!p.external) { ensureRoot(); setMedia(p.media); styleLayer(p.cfg.bg); }
     else if (root) { root.remove(); root = null; curKey = null; mediaEl = null; }
     setCSS(p.cfg);
+    setBase(p.cfg.bg);
     M.status.bg = true;
     if (p.cfg.chart && p.cfg.chart.apply) applyColors(p.cfg);
     else { restoreColors(); if (p.cfg.bg.mode === "behind") applyColors(p.cfg, true); M.status.colors = "skipped"; }
@@ -215,6 +226,7 @@
     try {
       const live = FX.apply(p.cfg, now / 1000);
       if (root) styleLayer(live.bg);
+      setBase(live.bg);
       if (act.colors && p.cfg.chart && p.cfg.chart.apply && now - lastColor > (p.fxMs || 90)) { lastColor = now; applyColors(live, false, true); }
     } catch (e) { L("error", "Animation error", String(e)); return; }
     fxRaf = requestAnimationFrame(fxTick);

@@ -38,7 +38,7 @@
 
   const DEFAULT_CFG = () => ({
     id: null, name: "New config", builtIn: false, rotate: false,
-    bg: { mediaId: null, mode: "behind", fit: "cover", position: "center", opacity: 0.85, blur: 0, brightness: 0.8, saturation: 1, speed: 1, tint: "#000000", tintStrength: 0.25, vignette: 0.45 },
+    bg: { mediaId: null, mode: "behind", fit: "cover", position: "center", opacity: 0.85, blur: 0, brightness: 0.8, saturation: 1, speed: 1, tint: "#000000", tintStrength: 0.25, vignette: 0.45, base: { mode: "solid", color: "#000000", color2: "#0B3B3A", angle: 160 } },
     chart: { apply: true, up: "#FFFFFF", down: "#3A3A3A", borderUp: "#FFFFFF", borderDown: "#8A8A8A", wickUp: "#FFFFFF", wickDown: "#8A8A8A", paneBg: "#000000", paneTransparent: true, grid: false, gridColor: "#FFFFFF14", text: "#D9D9D9", crosshair: "#39C5BB" },
     ui: { glassToolbars: false },
     fx: [], fxOn: true,
@@ -127,6 +127,7 @@
     function look(c) {
       const bg = c.bg, behind = bg.mode === "behind";
       root.classList.toggle("overlay", !behind);
+      root.style.background = behind ? (MSK_FX.baseCSS(bg.base) || "#131722") : "#000";
       wrap.style.opacity = behind ? 1 : bg.opacity;
       if (media) {
         const w = root.clientWidth || 600, z = Math.max(bg.blur > 0 ? 1.06 : 1, bg.zoom || 1);
@@ -459,6 +460,34 @@
         slider("Saturation", "bg.saturation", 0, 2, 0.01, pct),
         slider("Video speed", "bg.speed", 0.25, 2, 0.05, (x) => x.toFixed(2) + "x"),
       ]);
+      // Base color
+      d.bg.base = { ...MSK_FX.DEFAULT_BASE, ...(d.bg.base || {}) };
+      const baseP = panel("Base color", true, []), bb = $(".body", baseP);
+      const SOLIDS = [["Black", "#000000"], ["Charcoal", "#111315"], ["TV dark", "#131722"], ["Midnight", "#0B1020"], ["Navy", "#0A1A33"], ["Deep teal", "#062A2A"], ["Plum", "#1A0B24"], ["White", "#FFFFFF"]];
+      const GRADS = [["Miku", "#0B4A46", "#000000", 160], ["Aurora", "#03322C", "#1A0B2E", 135], ["Sunset", "#3A0F25", "#0B1020", 180], ["Ocean", "#0A2A4A", "#020812", 170], ["Smoke", "#2A2D33", "#060708", 160], ["Daylight", "#FFFFFF", "#D9E7F2", 180]];
+      const renderBase = () => {
+        const b = d.bg.base;
+        bb.innerHTML = "";
+        bb.appendChild(el(`<div class="faint" style="font-size:12px">Shows behind your photo or video: around it with Fit "Contain", through it when opacity is under 100%, and as the whole chart background when Media is "None". Applies with "Behind chart".</div>`));
+        bb.appendChild(ctrl("Style", seg([["solid", "Solid"], ["gradient", "Gradient"], ["tv", "TradingView"]], b.mode, (m) => { b.mode = m; self.changed(); renderBase(); }, "full")));
+        if (b.mode === "tv") { bb.appendChild(el(`<div class="faint" style="font-size:12px">Keeps TradingView's own theme color behind your media.</div>`)); return; }
+        const list = b.mode === "gradient" ? GRADS : SOLIDS;
+        const sws = el(`<div class="palettes">${list.map((x, i) => `<button class="pal glass" data-i="${i}"><i class="base-dot" style="background:${x.length > 2 ? `linear-gradient(${x[3]}deg, ${x[1]}, ${x[2]})` : x[1]}"></i>${x[0]}</button>`).join("")}</div>`);
+        sws.onclick = (e) => {
+          const t = e.target.closest(".pal"); if (!t) return;
+          const x = list[+t.dataset.i];
+          if (b.mode === "gradient") Object.assign(b, { color: x[1], color2: x[2], angle: x[3] }); else b.color = x[1];
+          self.changed(); renderBase();
+        };
+        bb.appendChild(sws);
+        if (b.mode === "gradient") {
+          bb.appendChild(el(`<div class="two"></div>`));
+          const two = $(".two", bb); two.appendChild(color("From", "bg.base.color")); two.appendChild(color("To", "bg.base.color2"));
+          bb.appendChild(slider("Angle", "bg.base.angle", 0, 360, 1, (x) => Math.round(x) + "°"));
+        } else bb.appendChild(color("Color", "bg.base.color"));
+      };
+      renderBase();
+
       panel("Mood", false, [
         color("Tint", "bg.tint"),
         slider("Tint strength", "bg.tintStrength", 0, 1, 0.01, pct),

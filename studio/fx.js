@@ -10,6 +10,9 @@
     zoom: { label: "Zoom", group: "Background", kind: "num", min: 100, max: 160, unit: "%", def: [100, 112], path: "bg.zoom", scale: 0.01 },
     tintStrength: { label: "Tint strength", group: "Background", kind: "num", min: 0, max: 100, unit: "%", def: [0, 55], path: "bg.tintStrength", scale: 0.01 },
     vignette: { label: "Vignette", group: "Background", kind: "num", min: 0, max: 100, unit: "%", def: [20, 85], path: "bg.vignette", scale: 0.01 },
+    baseAngle: { label: "Base gradient angle", group: "Background", kind: "num", min: 0, max: 360, unit: "°", def: [0, 360], path: "bg.base.angle", scale: 1 },
+    base: { label: "Base color", group: "Color cycle", kind: "color", min: 0, max: 360, unit: "°", def: [0, 360], base: "color", l: 0.32 },
+    base2: { label: "Base gradient 2nd color", group: "Color cycle", kind: "color", min: 0, max: 360, unit: "°", def: [180, 540], base: "color2", l: 0.32 },
     tint: { label: "Tint color", group: "Color cycle", kind: "color", min: 0, max: 360, unit: "°", def: [0, 360], bg: "tint", l: 0.45 },
     candles: { label: "All candles", group: "Color cycle", kind: "color", min: 0, max: 360, unit: "°", def: [0, 360], keys: ["up", "borderUp", "wickUp"], keys2: ["down", "borderDown", "wickDown"], chart: true },
     up: { label: "Up candles", group: "Color cycle", kind: "color", min: 0, max: 360, unit: "°", def: [0, 360], keys: ["up", "borderUp", "wickUp"], chart: true },
@@ -59,16 +62,25 @@
     return out;
   }
 
+  const DEFAULT_BASE = { mode: "solid", color: "#000000", color2: "#0B3B3A", angle: 160 };
+  // CSS background for the area behind your media (null = keep TradingView's own theme)
+  function baseCSS(b) {
+    b = { ...DEFAULT_BASE, ...(b || {}) };
+    if (b.mode === "tv") return null;
+    if (b.mode === "gradient") return `linear-gradient(${b.angle}deg, ${b.color}, ${b.color2})`;
+    return b.color;
+  }
   function apply(cfg, t) {
     if (!active(cfg).any) return cfg;
-    const out = { ...cfg, bg: { ...cfg.bg }, chart: { ...cfg.chart } };
+    const out = { ...cfg, bg: { ...cfg.bg, base: { ...DEFAULT_BASE, ...(cfg.bg.base || {}) } }, chart: { ...cfg.chart } };
     for (const a of cfg.fx) {
       const T = a && a.on && TARGETS[a.target]; if (!T) continue;
       const period = Math.max(0.05, +a.period || 1), x = t / period + (+a.phase || 0), p = fract(x);
       const v = +a.min + (+a.max - +a.min) * wave(a.wave, p, x, seedOf(a.id));
-      if (T.kind === "num") { const [grp, key] = T.path.split("."); out[grp][key] = v * T.scale; continue; }
+      if (T.kind === "num") { const ks = T.path.split("."), last = ks.pop(); ks.reduce((o, k) => o[k], out)[last] = v * T.scale; continue; }
       const hex = hsl2hex(v, 0.88, T.l || 0.6) + (T.alpha || "");
       if (T.bg) out.bg[T.bg] = hex;
+      if (T.base) { out.bg.base[T.base] = hsl2hex(v, 0.75, T.l); if (out.bg.base.mode === "tv") out.bg.base.mode = "solid"; }
       if (T.keys) for (const k of T.keys) out.chart[k] = hex;
       if (T.keys2) { const hex2 = hsl2hex(v + 180, 0.88, 0.6); for (const k of T.keys2) out.chart[k] = hex2; }
       if (a.target === "grid") out.chart.grid = true;
@@ -76,5 +88,5 @@
     return out;
   }
 
-  root.MSK_FX = { TARGETS, WAVES, apply, active, wave, hsl2hex };
+  root.MSK_FX = { TARGETS, WAVES, apply, active, wave, hsl2hex, baseCSS, DEFAULT_BASE };
 })(typeof window !== "undefined" ? window : globalThis);

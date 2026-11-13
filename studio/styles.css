@@ -440,3 +440,4 @@ kbd { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; b
 .ext .tb-right .wc:not(#theme-btn) { display: none; }
 .ext #nav button[data-page="logs"] { display: none; }
 .ext .titlebar { -webkit-app-region: no-drag; }
+.pal i.base-dot { width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--line-2); }
