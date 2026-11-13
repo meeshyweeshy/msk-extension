@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.4.0-39C5BB?style=for-the-badge&labelColor=0b1416" />
+  <img alt="version" src="https://img.shields.io/badge/version-1.5.0-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="manifest v3" src="https://img.shields.io/badge/manifest-v3-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="browsers" src="https://img.shields.io/badge/chrome%20·%20brave%20·%20edge-ready-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="price" src="https://img.shields.io/badge/price-free-white?style=for-the-badge&labelColor=0b1416" />
@@ -30,6 +30,8 @@
 | 🎨 **Base color** | Solid, gradient, or TradingView's own theme behind your media. Or skip media and just color the chart. |
 | 🕯️ **Candle colors** | Recolor bodies, borders, wicks, grid, scale text and crosshair. Color palettes included. |
 | ✨ **Animations** | Make anything move: pulse, flash, strobe, heartbeat, flicker, rainbow cycling. Stack as many as you want. |
+| 〰️ **Curves** | Shape every animation with presets (Smooth, Snap, Overshoot…) or drag your own curve. |
+| 📋 **Trading checklist** | A pre-trade checklist on your chart with a score (points, percent or grade) and a Ready / Wait call against your minimum. |
 | 🗂️ **Configs** | Starts with a clean Monochrome look. Save your own, switch in one click, auto-rotate on a timer, export/import `.msk` files (media included). |
 | 🌈 **Your colors** | Pick the Studio and popup's accent, glow and background colors in **Settings → Appearance**. |
 | ⬆️ **Updates** | Checks this repo for new versions. You'll see a **NEW** badge on the icon and a banner with a download link. |
@@ -50,6 +52,8 @@
     <td width="50%"><img src="docs/library.jpg" alt="Library" /><p align="center"><b>Library</b>: drag & drop photos and videos</p></td>
   </tr>
 </table>
+
+<p align="center"><img src="docs/checklist-chart.jpg" alt="Checklist on the chart" width="88%" /><br /><sub>The trading checklist on a chart: tick items, watch the score</sub></p>
 
 <p align="center"><img src="docs/popup.png" alt="Popup" width="300" /><br /><sub>The toolbar popup: on/off, animations, quick config switching</sub></p>
 
@@ -78,6 +82,7 @@
 | `Alt` `Shift` `M` | Background on / off |
 | `Alt` `Shift` `.` | Next config |
 | `Alt` `Shift` `,` | Pause / resume animations |
+| `Alt` `Shift` `K` | Show / hide the checklist |
 | `Ctrl` `K` | Command palette (inside the Studio) |
 
 Change them at `chrome://extensions/shortcuts`.
