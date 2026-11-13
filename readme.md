@@ -94,10 +94,14 @@ Download the new ZIP, replace your old folder's files, then hit the ↻ reload b
 
 **Can I move configs to the desktop app?** Yes. Configs export as `.msk` files (with the media inside) and import into either one.
 
+## ✦ Terms & disclaimer
+
+MSK is free and provided **as-is, with no warranty**. It only changes how your chart looks and **isn't financial advice**. I'm not liable for trading losses, account problems, data loss or anything else that comes from using it. By downloading or using MSK you agree to the **[Terms of Service](TERMS.md)**.
+
 ## ✦ About
 
 MSK started as a "can I put my own wallpaper behind TradingView?" idea and turned into a full chart-skins studio: a [desktop app](https://github.com/meeshyweeshy/msk-desktop) for TradingView Desktop plus this browser extension. Built by **meeshy** for traders who stare at charts all day and want them to actually look good.
 
-Not affiliated with TradingView. Use it however you like.
+Not affiliated with or endorsed by TradingView, Inc. Free for personal use under the [Terms of Service](TERMS.md).
 
 <p align="center"><img src="docs/banner.svg" alt="" width="40%" /></p>
