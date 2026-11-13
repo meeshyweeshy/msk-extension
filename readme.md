@@ -90,7 +90,7 @@ Download the new ZIP, replace your old folder's files, then hit the ↻ reload b
 
 **Candle colors didn't change?** Make sure **Recolor the chart** is on in the Workshop. TradingView's internals aren't public, so colors are best-effort. Backgrounds always work.
 
-**Is there a desktop app?** Yes: **[msk-desktop](https://github.com/meeshyweeshy/msk-desktop)** works with TradingView Desktop on Windows, with a tray icon, startup launch and global hotkeys.
+**Is there a desktop app?** Yes: **[msk-desktop](https://github.com/meeshyweeshy/msk-desktop)** works with TradingView Desktop on Windows and macOS, with a tray / menu bar icon, launch at login and global hotkeys.
 
 **Can I move configs to the desktop app?** Yes. Configs export as `.msk` files (with the media inside) and import into either one.
 
