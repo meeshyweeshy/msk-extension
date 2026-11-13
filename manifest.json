@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MSK",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "Custom photo/video backgrounds, candle colors and animations for TradingView charts.",
   "icons": {
     "16": "icons/16.png",
@@ -69,19 +69,19 @@
   "commands": {
     "toggle-bg": {
       "suggested_key": {
-        "default": "Alt+Shift+B"
+        "default": "Alt+Shift+M"
       },
       "description": "Turn background on/off"
     },
     "next-config": {
       "suggested_key": {
-        "default": "Alt+Shift+N"
+        "default": "Alt+Shift+Period"
       },
       "description": "Next config"
     },
     "toggle-fx": {
       "suggested_key": {
-        "default": "Alt+Shift+F"
+        "default": "Alt+Shift+Comma"
       },
       "description": "Pause/resume animations"
     }

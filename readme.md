@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.2.0-39C5BB?style=for-the-badge&labelColor=0b1416" />
+  <img alt="version" src="https://img.shields.io/badge/version-1.4.0-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="manifest v3" src="https://img.shields.io/badge/manifest-v3-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="browsers" src="https://img.shields.io/badge/chrome%20·%20brave%20·%20edge-ready-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="price" src="https://img.shields.io/badge/price-free-white?style=for-the-badge&labelColor=0b1416" />
@@ -28,9 +28,10 @@
 |---|---|
 | 🖼️ **Backgrounds** | Put any photo, GIF or video behind (or over) your chart. Fit, blur, brightness, saturation, tint and vignette. |
 | 🎨 **Base color** | Solid, gradient, or TradingView's own theme behind your media. Or skip media and just color the chart. |
-| 🕯️ **Candle colors** | Recolor bodies, borders, wicks, grid, scale text and crosshair. Presets like Mono, Miku, Classic, Neon. |
+| 🕯️ **Candle colors** | Recolor bodies, borders, wicks, grid, scale text and crosshair. Color palettes included. |
 | ✨ **Animations** | Make anything move: pulse, flash, strobe, heartbeat, flicker, rainbow cycling. Stack as many as you want. |
-| 🗂️ **Configs** | Save looks, switch in one click, auto-rotate on a timer, export/import `.msk` files (media included). |
+| 🗂️ **Configs** | Starts with a clean Monochrome look. Save your own, switch in one click, auto-rotate on a timer, export/import `.msk` files (media included). |
+| 🌈 **Your colors** | Pick the Studio and popup's accent, glow and background colors in **Settings → Appearance**. |
 | ⬆️ **Updates** | Checks this repo for new versions. You'll see a **NEW** badge on the icon and a banner with a download link. |
 | ⚡ **Fast** | Live preview, instant apply on every open chart tab, `Ctrl+K` command palette, keyboard shortcuts. |
 
@@ -38,8 +39,11 @@
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/workshop.jpg" alt="Workshop" /><p align="center"><b>Workshop</b>: build a look with a live preview</p></td>
+    <td width="50%"><img src="docs/editor.jpg" alt="Editor" /><p align="center"><b>Editor</b>: build a look with a live preview</p></td>
     <td width="50%"><img src="docs/animations.jpg" alt="Animations" /><p align="center"><b>Animations</b>: rainbow candles, heartbeat, strobe…</p></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/appearance.jpg" alt="Appearance" /><p align="center"><b>Appearance</b>: make the Studio and popup your colors</p></td>
   </tr>
   <tr>
     <td width="50%"><img src="docs/configs.jpg" alt="Configs" /><p align="center"><b>Configs</b>: all your looks, one click to apply</p></td>
@@ -62,18 +66,18 @@
 
 1. Click the MSK icon → **Open Studio**.
 2. **Library** → drag in a photo or video.
-3. **Workshop** → pick it, choose **Behind chart**, tweak the look, add animations if you want.
+3. **Editor** → pick it, choose **Behind chart**, tweak the look, add animations if you want.
 4. **Save & apply**, then open any `tradingview.com/chart` tab. Done.
 
-> Tip: flip on **Live on TradingView** in the Workshop to see changes on your chart while you edit.
+> Tip: flip on **Live on TradingView** in the Editor to see changes on your chart while you edit.
 
 ## ✦ Shortcuts
 
 | Keys | Does |
 |---|---|
-| `Alt` `Shift` `B` | Background on / off |
-| `Alt` `Shift` `N` | Next config |
-| `Alt` `Shift` `F` | Pause / resume animations |
+| `Alt` `Shift` `M` | Background on / off |
+| `Alt` `Shift` `.` | Next config |
+| `Alt` `Shift` `,` | Pause / resume animations |
 | `Ctrl` `K` | Command palette (inside the Studio) |
 
 Change them at `chrome://extensions/shortcuts`.
@@ -88,7 +92,7 @@ Download the new ZIP, replace your old folder's files, then hit the ↻ reload b
 
 **Where's my stuff stored?** Inside your browser (extension storage). Nothing is uploaded anywhere.
 
-**Candle colors didn't change?** Make sure **Recolor the chart** is on in the Workshop. TradingView's internals aren't public, so colors are best-effort. Backgrounds always work.
+**Candle colors didn't change?** Make sure **Recolor the chart** is on in the Editor. TradingView's internals aren't public, so colors are best-effort. Backgrounds always work.
 
 **Is there a desktop app?** Yes: **[msk-desktop](https://github.com/meeshyweeshy/msk-desktop)** works with TradingView Desktop on Windows and macOS, with a tray / menu bar icon, launch at login and global hotkeys.
 
@@ -100,7 +104,7 @@ MSK is free and provided **as-is, with no warranty**. It only changes how your c
 
 ## ✦ About
 
-MSK started as a "can I put my own wallpaper behind TradingView?" idea and turned into a full chart-skins studio: a [desktop app](https://github.com/meeshyweeshy/msk-desktop) for TradingView Desktop plus this browser extension. Built by **meeshy** for traders who stare at charts all day and want them to actually look good.
+MSK started as a "can I put my own wallpaper behind TradingView?" idea and turned into a full chart customization studio: a [desktop app](https://github.com/meeshyweeshy/msk-desktop) for TradingView Desktop plus this browser extension. Built by **meeshy** for traders who stare at charts all day and want them to actually look good.
 
 Not affiliated with or endorsed by TradingView, Inc. Free for personal use under the [Terms of Service](TERMS.md).
 
