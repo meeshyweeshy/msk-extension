@@ -47,3 +47,7 @@ footer { display: flex; gap: 8px; margin-top: 12px; }
 .switch input:checked + span::after { transform: translateX(18px); }
 .switch.big input:checked + span::after { transform: translateX(22px); }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+.upd { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; margin-bottom: 10px; border-radius: 14px; background: var(--miku); color: #001a18; cursor: pointer; text-decoration: none; animation: rise .5s both, pulse 2.4s ease-in-out infinite; }
+.upd[hidden] { display: none; }
+.upd b { font-weight: 800; } .upd span { font-size: 11px; opacity: .75; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(57,197,187,.18); } }

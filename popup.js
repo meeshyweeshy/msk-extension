@@ -13,6 +13,7 @@
     const d = await MSKX.load();
     document.documentElement.dataset.theme = d.settings.theme || "dark";
     $("#on").checked = !!d.enabled; $("#fx").checked = !d.fxPaused;
+    $("#upd").hidden = !d.update; if (d.update) { $("#upd-v").textContent = "v" + d.update.version; $("#upd").onclick = () => chrome.tabs.create({ url: d.update.zip }); }
     const c = MSKX.activeConfig(d), media = (id) => d.media.find((m) => m.id === id);
     const bgOf = async (cfg) => { const u = await thumbURL(cfg.bg.mediaId && media(cfg.bg.mediaId)); return u ? `background-image:url('${u}')` : `background:linear-gradient(135deg, ${cfg.chart.up} 50%, ${cfg.chart.down} 50%)`; };
     $("#np-thumb").setAttribute("style", await bgOf(c));

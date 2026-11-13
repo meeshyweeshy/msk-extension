@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.1.0-39C5BB?style=for-the-badge&labelColor=0b1416" />
+  <img alt="version" src="https://img.shields.io/badge/version-1.2.0-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="manifest v3" src="https://img.shields.io/badge/manifest-v3-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="browsers" src="https://img.shields.io/badge/chrome%20·%20brave%20·%20edge-ready-39C5BB?style=for-the-badge&labelColor=0b1416" />
   <img alt="price" src="https://img.shields.io/badge/price-free-white?style=for-the-badge&labelColor=0b1416" />
@@ -31,6 +31,7 @@
 | 🕯️ **Candle colors** | Recolor bodies, borders, wicks, grid, scale text and crosshair. Presets like Mono, Miku, Classic, Neon. |
 | ✨ **Animations** | Make anything move: pulse, flash, strobe, heartbeat, flicker, rainbow cycling. Stack as many as you want. |
 | 🗂️ **Configs** | Save looks, switch in one click, auto-rotate on a timer, export/import `.msk` files (media included). |
+| ⬆️ **Updates** | Checks this repo for new versions. You'll see a **NEW** badge on the icon and a banner with a download link. |
 | ⚡ **Fast** | Live preview, instant apply on every open chart tab, `Ctrl+K` command palette, keyboard shortcuts. |
 
 ## ✦ Preview

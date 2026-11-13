@@ -232,6 +232,7 @@
   pages.home = {
     mount(v) {
       v.innerHTML = `<div class="page stagger">
+        <div id="h-upd" style="--i:0"></div>
         <div class="hero" style="--i:0">
           <section class="hero-main glass">
             <div class="eyebrow">MSK · chart studio</div>
@@ -258,11 +259,19 @@
         if (act === "next") api.config.next();
         if (act === "toggle") api.setEnabled(!S.enabled);
         if (act === "chip") api.config.activate(a.dataset.id);
+        if (act === "upd-get") api.update.open();
+        if (act === "upd-notes") api.update.open("page");
+        if (act === "upd-later") api.update.dismiss(S.update.version);
       });
       this.update();
     },
     update() {
       const v = document, t = tvInfo(), c = activeCfg();
+      const u = S.update, showU = u && S.dismissedUpdate !== u.version;
+      $("#h-upd").innerHTML = showU ? `<section class="upd-card glass"><div class="upd-ico">${I.upload.replace("M12 16V4M7 9l5-5 5 5M4 20h16", "M12 20V8M7 13l5-5 5 5M4 4h16")}</div>
+        <div class="grow"><b>MSK v${esc(u.version)} is out</b><div class="muted" style="font-size:12.5px">${isExt() ? "Download the new version from GitHub, replace your MSK folder's files, then hit reload on your extensions page." : "Download the new installer from GitHub and run it. Your media and configs stay."}</div>
+          ${u.notes ? `<div class="faint upd-notes">${esc(u.notes.split("\n").map((l) => l.replace(/^[-*#\s]+/, "").trim()).filter(Boolean).slice(0, 3).join(" · ")).slice(0, 220)}</div>` : ""}</div>
+        <div class="row"><button class="btn ghost sm" data-act="upd-later">Later</button><button class="btn ghost sm" data-act="upd-notes">What's new</button><button class="btn miku" data-act="upd-get">${I.out}Download</button></div></section>` : "";
       $("#h-status", v).innerHTML = `<div class="eyebrow">TradingView</div>
         <div class="status-big"><div class="status-orb"><span class="dot ${t.dot}"></span></div><div><div class="status-title">${t.title}</div><div class="muted">${esc(t.sub)}</div></div></div>
         <div class="kv"><span>Background</span><span>${S.enabled ? "On" : "Off"}</span></div>
@@ -676,6 +685,8 @@
             ${D(R(I.eye, "Start hidden", "Only the tray icon shows on startup", "startHidden"))}
             ${D(R(I.layers, "Close to tray", "The X button keeps MSK running in the background", "closeToTray"))}
             ${R(I.moon, "Theme", "Black or white app look", "theme")}
+            ${R(I.out, "Check for updates automatically", "Looks for a new version on GitHub every few hours", "autoUpdate")}
+            ${R(I.refresh, "Check for updates", `You're on v${esc(S.version)}`, "checkUpd")}
             ${R(I.refresh, "Auto-rotate configs", 'Cycles configs marked "Rotate" (all of them if none are)', "rotEnabled")}
             ${R(I.clock, "Rotate every", "Minutes between switches", "rotMins")}
           </section>
@@ -730,6 +741,15 @@
       const setSw = (key) => sw(!!S.settings[key], (on) => api.settings({ [key]: on }));
       put("startup", setSw("startup")); put("startHidden", setSw("startHidden")); put("closeToTray", setSw("closeToTray"));
       put("theme", seg([["dark", "Black"], ["light", "White"]], s.theme, (t) => api.settings({ theme: t })));
+      put("autoUpdate", sw(s.autoUpdate !== false, (on) => api.settings({ autoUpdate: on })));
+      put("checkUpd", btn(`${I.refresh}Check now`, "glass bubble", async () => {
+        toast("Checking GitHub...");
+        const r = await api.update.check();
+        if (r.status === "available") { toast(`v${r.version} is available`); go("home"); }
+        else if (r.status === "latest") toast("You're on the latest version");
+        else if (r.status === "none") toast("No releases on GitHub yet", "warn");
+        else toast("Couldn't reach GitHub", "warn");
+      }));
       put("rotEnabled", sw(s.rotation.enabled, (on) => api.settings({ rotation: { enabled: on } })));
       put("rotMins", stepper(s.rotation.minutes, 1, 240, 1, "min", (n) => api.settings({ rotation: { minutes: n } })));
       put("autoLaunchTV", setSw("autoLaunchTV"));
@@ -923,6 +943,7 @@
       { g: "Actions", label: "Launch / restart TradingView", icon: I.play, run: () => launchTV((S.tv || {}).status === "no-hook") },
       ...(isExt() ? [] : [{ g: "Actions", label: "Kill all TradingView processes", icon: I.trash, run: () => killAll() }]),
       { g: "Actions", label: "Restart MSK", icon: I.refresh, run: () => api.app.restart() },
+      { g: "Actions", label: S.update ? `Download update v${S.update.version}` : "Check for updates", icon: I.out, run: () => (S.update ? api.update.open() : api.update.check().then((r) => toast(r.status === "available" ? `v${r.version} is available` : r.status === "latest" ? "You're on the latest version" : "Couldn't check right now", r.status === "error" ? "warn" : "ok"))) },
       ...(isExt() ? [] : [{ g: "Actions", label: "Run diagnostics", icon: I.search, run: () => { api.tv.diagnose(); go("logs"); } }]),
       { g: "Actions", label: S.settings.theme === "dark" ? "Switch to white theme" : "Switch to black theme", icon: I.moon, run: () => api.settings({ theme: S.settings.theme === "dark" ? "light" : "dark" }) },
     ];
@@ -978,6 +999,8 @@
   // ---------- global chrome ----------
   function renderChrome() {
     document.documentElement.dataset.theme = S.settings.theme;
+    const up = $("#upd-pill");
+    if (up) { up.hidden = !S.update; if (S.update) $("#upd-text").textContent = `Update v${S.update.version}`; }
     const lb = $('#nav button[data-page="logs"]'), showLogs = S.settings.showLogs !== false;
     if (lb && lb.hidden === showLogs) { lb.hidden = !showLogs; requestAnimationFrame(placeBlob); }
     const c = activeCfg(), np = $("#np");
@@ -1004,6 +1027,7 @@
     $("#np-next").onclick = (e) => { e.stopPropagation(); api.config.next(); };
     $("#np").onclick = () => go("workshop", { configId: S.activeConfigId });
     $("#pal-btn").onclick = () => palette();
+    $("#upd-pill").onclick = () => go("home");
     window.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); palette(); } });
     $("#theme-btn").onclick = () => api.settings({ theme: S.settings.theme === "dark" ? "light" : "dark" });
     $("#w-min").onclick = api.win.min; $("#w-max").onclick = api.win.max; $("#w-close").onclick = api.win.close;

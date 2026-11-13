@@ -1,7 +1,7 @@
 // Shared by every part of the MSK extension: storage, presets, media database, payload.
 (function (g) {
   const uid = () => Array.from(crypto.getRandomValues(new Uint8Array(6)), (b) => b.toString(16).padStart(2, "0")).join("");
-  const DEFAULT_SETTINGS = { theme: "dark", rotation: { enabled: false, minutes: 15 }, fxFps: 11, showLogs: false, hotkeys: {} };
+  const DEFAULT_SETTINGS = { theme: "dark", rotation: { enabled: false, minutes: 15 }, fxFps: 11, showLogs: false, hotkeys: {}, autoUpdate: true };
 
   function baseConfig(name, chart = {}, bg = {}) {
     return {

@@ -46,6 +46,7 @@
     return {
       settings: { ...D.settings, hotkeys: await commandKeys(), showLogs: false }, media: D.media, configs: D.configs,
       activeConfigId: D.activeConfigId, enabled: D.enabled, fxPaused: !!D.fxPaused, tv,
+      update: D.update || null, dismissedUpdate: D.dismissedUpdate || null,
       version: chrome.runtime.getManifest().version, dataDir: "Stored inside this browser", platform: "extension",
     };
   }
@@ -164,6 +165,12 @@
         return n;
       },
     },
+    update: {
+      check: () => new Promise((res) => chrome.runtime.sendMessage({ type: "checkUpdate" }, (r) => res(r || { status: "error" }))),
+      open: async (kind) => { const u = D.update || {}; chrome.tabs.create({ url: kind === "page" ? (u.page || "https://github.com/meeshyweeshy/msk-extension") : (u.zip || "https://github.com/meeshyweeshy/msk-extension/archive/refs/heads/main.zip") }); },
+      dismiss: (v) => save({ dismissedUpdate: v }),
+    },
+    openUrl: async (u) => { if (/^https:\/\/github\.com\//.test(u)) chrome.tabs.create({ url: u }); },
     setEnabled: (v) => save({ enabled: !!v }),
     fxPause: (v) => save({ fxPaused: !!v }),
     async settings(patch) {
